@@ -1,0 +1,27 @@
+/* 
+
+*/
+
+// need to start with creating the contract
+contract MemeVote =
+
+  record meme = 
+    { creatorAddress : address,
+      url          : string,
+      name          : string,
+      voteCount     : int }
+
+  record state = {
+     memes : map( int, meme )}
+
+// initiates the meme variable into a function
+  function init() = { memes = {}}
+
+// can call getMeme function to get the value inside of meme
+  public function getMeme(index : int) : meme =
+    state.memes[index]
+
+// user is able to enter a URL string into the registerMeme function
+  public stateful function registerMeme(index : int, url' : string, name' : string) =
+    let meme = { creatorAddress = Call.caller, url = url', name = name', voteCount = 0}
+    put( state { memes[index] = meme })

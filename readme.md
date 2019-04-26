@@ -1,4 +1,4 @@
 
-# default project files
+# aeternity's dacade learning
 
-run the newproject.bat file in the directory that you want to create your new project in  
+Going through and learning how to write smart contracts and create a daepp on aeternit'y [dacade.org](https://dacade.org) website.

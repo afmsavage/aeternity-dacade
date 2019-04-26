@@ -1,0 +1,17 @@
+/* 
+Simple Contract for storing a string value 'url' on the blockchain
+*/
+
+// need to start with creating the contract
+contract MemeVote =
+  record state = { url : string }
+// initiates the url variable into a function
+  function init() = { url = "https://newarena.com/wp-content/uploads/2017/07/Capture-43.png" }
+
+// can call getMeme function to get the value inside of url
+  public function getMeme() : string =
+    state.url
+
+// user is able to enter a URL string into the registerMeme function
+  public stateful function registerMeme(input : string) = 
+    put(state { url = input })
