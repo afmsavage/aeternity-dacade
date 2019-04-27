@@ -11,8 +11,10 @@ npm-debug.log
 yarn-error.log
 yarn.lock
 .yarnclean
+.jshintrc
+markdownlint.json
 
 # visual studio code files
 .vscode
-.code-workspace
+*.code-workspace
 tempCodeRunnerFile.js
