@@ -24,7 +24,7 @@ contract Pokedex =
       pokesLength = 0 }
 
 // can call getPoke function to get the value inside of poke
-// usage: getPoke, args:index number, Return Type: (address,string,string,int)
+// usage: getPoke, args:index number, Return Type: (address,string,string,string,int)
   public function getPoke(index : int) : poke =
     switch(Map.lookup( index, state.pokes ))
       None    => abort("This Pokemon has not been added yet, please add it to the Pokedex!")
