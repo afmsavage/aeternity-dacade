@@ -1,55 +1,50 @@
 /* 
-AEternity Smart Contract for Meme Voting.  Function Usage and such above each.
+AEternity Smart Contract to create a decentralized pokedex!  Function Usage and such above each.
 Dacade.org Course
 Antonio Savage
 */
 
 // need to start with creating the contract
-contract MemeVote =
+contract Pokedex =
 
-  record meme = 
+  record poke = 
     { creatorAddress : address,
-      url            : string,
       name           : string,
+      url            : string,
+      category       : string,
       voteCount      : int }
 
   record state = {
-     memes       : map( int, meme ),
-     memesLength : int }
+     pokes       : map( int, poke ),
+     pokesLength : int }
 
-// initiates the meme variable into a function
+// initiates the poke variable into a function
   function init() = 
-    { memes = {},
-      memesLength = 0 }
+    { pokes = {},
+      pokesLength = 0 }
 
-/* can call getMeme function to get the value inside of meme
-NOTE - old version of the getMeme function that did not have error checking in it to see if the index exists
-  public function getMeme(index : int) : meme =
-    state.memes[index]
-*/
-
-// can call getMeme function to get the value inside of meme
-// usage: getMeme, args:index number, Return Type: (address,string,string,int)
-  public function getMeme(index : int) : meme =
-    switch(Map.lookup( index, state.memes ))
-      None    => abort("There was no meme with this index register, try again!")
+// can call getPoke function to get the value inside of poke
+// usage: getPoke, args:index number, Return Type: (address,string,string,int)
+  public function getPoke(index : int) : poke =
+    switch(Map.lookup( index, state.pokes ))
+      None    => abort("This Pokemon has not been added yet, please add it to the Pokedex!")
       Some(x) => x
 
-// user is able to enter a URL string into the registerMeme function
-// usage: registerMeme, "url", "yourname", Return Type: int
-  public stateful function registerMeme(url' : string, name' : string) =
-    let meme = { creatorAddress = Call.caller, url = url', name = name', voteCount = 0}
-    let index = getMemesLength() +1
-    put( state { memes[index] = meme, memesLength = index })
+// user is able to enter a URL string into the registerPoke function
+// usage: registerPoke, "url", "pokemonName", "category" Return Type: int
+  public stateful function registerPoke(name' : string, url' : string, category' : string) =
+    let poke = { creatorAddress = Call.caller, name = name', url = url', category = category', voteCount = 0}
+    let index = getPokesLength() +1
+    put( state { pokes[index] = poke, pokesLength = index })
 
-// usage: getMemesLength, args:none, Return Type: int
-  public function getMemesLength() : int = 
-    state.memesLength 
+// usage: getPokesLength, args:none, Return Type: int
+  public function getPokesLength() : int = 
+    state.pokesLength 
 
-// usage: voteMeme, args: meme index number, Return Type: int
-  public stateful function voteMeme( index : int) =
-    let meme = getMeme(index)
-    Chain.spend(meme.creatorAddress, Call.value)
-    let updatedVoteCount = meme.voteCount + Call.value
-    let updatedMemes = state.memes{ [index].voteCount = updatedVoteCount }
-    put(state{ memes = updatedMemes })
+// usage: votepoke, args: poke index number, Return Type: int
+  public stateful function votepoke( index : int) =
+    let poke = getPoke(index)
+    Chain.spend(poke.creatorAddress, Call.value)
+    let updatedVoteCount = poke.voteCount + Call.value
+    let updatedPokes = state.pokes{ [index].voteCount = updatedVoteCount }
+    put(state{ pokes = updatedPokes })

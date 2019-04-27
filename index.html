@@ -12,7 +12,7 @@
     crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="main.css">
 
-    <title>Horizon Pokemon Voting Daepp</title>
+    <title>Decentralized Pokedex</title>
   </head>
   <body>
     <div class="container">
@@ -20,8 +20,10 @@
         <div class="col-md-4 col-sm-12 text-center div-center">
 
           <div id="title-div">
-            <img src="img/horizon.png">
-            <h1>Pokemon Voting</h1>
+            <img src="img/pokedex.png">
+            <h1>Decentralized Pokedex</h1>
+            <h4>Catch 'em All!</h4>
+            <p>Build a Pokedex on the AEternity Blockchain and vote for your favorite Pokemon!</p>
           </div>
 
           <div id="message">
@@ -33,20 +35,23 @@
 
           <div>
             <form>
-              <div class="form-row">
+              <div class="form-block">
                 <div class="col">
-                  <input type="text" id="regUrl" class="form-control" placeholder="Url of the meme">
+                    <input type="text" id="regName" class="form-control" placeholder="Pokemon's Name"><br>
                 </div>
                 <div class="col">
-                  <input type="text" id="regName" class="form-control" placeholder="Your name">
+                    <input type="text" id="regUrl" class="form-control" placeholder="URL of Pokemon Picture"> <br>
+                  <div class="col">
+                    <input type="text" id="regCategory" class="form-control" placeholder="Pokemon's Category eg: Ghost">
+                  </div>
                 </div>
               </div>
             </form>
 
-            <button id="registerBtn" class="btn btn-block">Register</button>
+            <button id="registerBtn" class="btn btn-block">Register Pokemon</button>
           </div>
 
-          <div id="memeBody">
+          <div id="pokeBody">
               </div>
             </div>
           </div>
@@ -54,15 +59,16 @@
         </div>
 
       <script id="template" type="x-tmpl-mustache">
-        {{#memeArray}}
+        {{#pokeArray}}
         <div class="card">
-          <h5 class="card-title">{{creatorName}} </h5>
-          <img class="card-img-top" src="{{memeUrl}}" alt="Card image cap">
+          <h5 class="card-title">{{pokeName}} </h5>
+          <img class="card-img-top" src="{{pokeUrl}}" alt="Card image cap">
+          <h5 class="card-title">{{pokeCategory}} </h5>
           <div class="card-body">
             <h6 class="card-subtitle mb-2 text-muted">{{votes}} attos</h6>
             <input type="number" class="form-control" placeholder="Amount" id="{{index}}">
             <button class="btn voteBtn btn-block" id={{index}}>VOTE</button>
-            {{/memeArray}}
+            {{/pokeArray}}
       </script>
 
     <!-- Optional JavaScript -->

@@ -1,14 +1,21 @@
-const contractAddress = 'ct_2Ln19U5k7xArnPTnKPCjqFBfN9kBBuBN76AbXkAzW55FHvKgjK';
+const contractAddress = 'ct_zT9xbVzCh6Kbwbgzy3vZgEAjb7EhZ4KfWmqwCxyN8vhnfhp8s';
 var client = null;
-var memeArray = [];
-var memesLength = 0;
+var pokeArray = [];
+var pokesLength = 0;
 
-function renderMemes() {
-memeArray = memeArray.sort(function(a,b){return b.votes-a.votes;});
+function renderPokes() {
+pokeArray = pokeArray.sort(function(a,b){return b.votes-a.votes;});
 var template = $('#template').html();
 Mustache.parse(template);
-var rendered = Mustache.render(template, {memeArray});
-$('#memeBody').html(rendered);
+var rendered = Mustache.render(template, {pokeArray});
+$('#pokeBody').html(rendered);
+}
+
+async function callStatic(func, args, types) {
+  const calledGet = await client.contractCallStatic(contractAddress, 'sophia-address', func, {args}).catch(e => console.error(e));
+  const decodedGet = await client.contractDecodeData(types, calledGet.result.returnValue).catch(e => console.error(e));
+
+  return decodedGet; 
 }
 
 window.addEventListener('load', async () => {
@@ -16,33 +23,44 @@ window.addEventListener('load', async () => {
 
   client = await Ae.Aepp();
 
-  const calledGet = await client.contractCallStatic(contractAddress, 'sophia-address', 'getMemesLength', {args: '()'}).catch(e => console.error(e));
-  console.log('calledGet', calledGet);
-  const decodedGet = await client.contractDecodeData('int', calledGet.result.returnValue).catch(e => console.error(e));
-  console.log('decodedGet', decodedGet.value);
+  const getPokesLength = await callStatic('getPokesLength', '()', 'int');
+  pokesLength = getPokesLength.value;
 
-  renderMemes();
+  for (let i = 1; i <= pokesLength; i++) {
+    const poke = await callStatic('getPoke',`(${i})`,'(address, string, string, string, int)');
+
+    pokeArray.push({
+      pokeName: poke.value[1].value,
+      pokeUrl: poke.value[2].value,
+      pokeCategory: poke.value[3],
+      index: i,
+      votes: poke.value[4].value,
+    });
+  }
+  renderPokes();
 
   $("#loader").hide();
 });
 
-jQuery("#memeBody").on("click", ".voteBtn", async function(event){
+jQuery("#pokeBody").on("click", ".voteBtn", async function(event){
 const value = $(this).siblings('input').val();
 const dataIndex = event.target.id;
-const foundIndex = memeArray.findIndex(meme => meme.index == dataIndex);
-memeArray[foundIndex].votes += parseInt(value, 10);
-renderMemes();
+const foundIndex = pokeArray.findIndex(poke => poke.index == dataIndex);
+pokeArray[foundIndex].votes += parseInt(value, 10);
+renderPokes();
 });
 
 $('#registerBtn').click(async function(){
 var name = ($('#regName').val()),
-    url = ($('#regUrl').val());
+    url = ($('#regUrl').val()),
+    category = ($('#regCategory').val());
 
-memeArray.push({
-  creatorName: name,
-  memeUrl: url,
-  index: memeArray.length+1,
+pokeArray.push({
+  pokeName: name,
+  pokeUrl: url,
+  pokeCategory: category,
+  index: pokeArray.length+1,
   votes: 0
-})
-renderMemes();
+});
+renderPokes();
 });
