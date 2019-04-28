@@ -25,6 +25,7 @@ async function contractCall(func, args, value, types) {
   return;
 }
 
+
 window.addEventListener('load', async () => {
   $("#loader").show();
 
