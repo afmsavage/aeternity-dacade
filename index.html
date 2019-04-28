@@ -51,16 +51,26 @@
             <button id="registerBtn" class="btn btn-block">Register Pokemon</button>
           </div>
 
-          <div id="pokeBody">
+          <div id="pokeCategory">
               </div>
             </div>
           </div>
 
         </div>
-
+        <div id="myBtnContainer">
+            <button class="btn active" onclick="filterSelection('all')"> Show all</button>
+        <script id="templateCategory" type="x-tmpl-mustache">
+                    {{#pokeArray}}
+                    <button class="btn" onclick="filterSelection('{{pokeCategory}}')"> {{pokeCategory}}</button>
+              {{/pokeArray}}
+        </script>
+      </div>
+        <div id="pokeBody">
+        </div>
       <script id="template" type="x-tmpl-mustache">
         {{#pokeArray}}
         <div class="card">
+          <div id="{{pokeCategory}}">
           <h5 class="card-title">{{pokeName}} </h5>
           <img class="card-img-top" src="{{pokeUrl}}" alt="Card image cap">
           <h6 class="card-subtitle mb-2 text-muted">{{pokeCategory}} </h6>
