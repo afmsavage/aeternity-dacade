@@ -39,7 +39,7 @@ window.addEventListener('load', async () => {
     pokeArray.push({
       pokeName: poke.value[1].value,
       pokeUrl: poke.value[2].value,
-      pokeCategory: poke.value[3],
+      pokeCategory: poke.value[3].value,
       index: i,
       votes: poke.value[4].value,
     });
@@ -55,7 +55,7 @@ $("#loader").show();
 const value = $(this).siblings('input').val();
 const dataIndex = event.target.id;
 
-await contractCall('votePoke',`(${dataIndex})`,value,'(int)');
+await contractCall('votepoke',`(${dataIndex})`,value,'(int)');
 
 const foundIndex = pokeArray.findIndex(poke => poke.index == dataIndex);
 pokeArray[foundIndex].votes += parseInt(value, 10);
