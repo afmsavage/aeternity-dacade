@@ -1,0 +1,50 @@
+/* 
+AEternity Smart Contract to create a decentralized token index.
+Antonio Savage
+*/
+
+// need to start with creating the contract
+contract tokenIndex =
+
+  record token = 
+    { creatorAddress : address,
+      name           : string,
+      ticker         : string,
+      maxSupply      : int,
+      totalTokens    : int,
+    }
+
+  record state = {
+     tokens       : map( int, token ),
+     totalTokens : int }
+
+// initiates the token variable into a function
+  function init() = 
+    { tokens = {},
+      totalTokens = 0 }
+
+// can call getPoke function to get the value inside of poke
+// usage: getPoke, args:index number, Return Type: (address,string,string,string,int)
+  public function getToken(index : string) : token =
+    switch(Map.lookup( index, state.tokens ))
+      None    => abort("This token has not been added to the index yet, please add it.")
+      Some(x) => x
+
+// user is able to enter a URL string into the registerPoke function
+// usage: registerPoke, "url", "pokemonName", "category" Return Type: int
+  public stateful function registerToken(name' : string, ticker' : string, maxSupply' : int) =
+    let poke = { creatorAddress = Call.caller, name = name', ticker = ticker', maxSupply = maxSupply', totalTokens = 0}
+    let index = getPokesLength() +1
+    put( state { tokens[index] = token, pokesLength = index })
+
+// usage: getPokesLength, args:none, Return Type: int
+  public function getPokesLength() : int = 
+    state.pokesLength 
+
+// // usage: votepoke, args: poke index number, Return Type: int
+//   public stateful function votepoke( index : int) =
+//     let poke = getPoke(index)
+//     Chain.spend(poke.creatorAddress, Call.value)
+//     let updatedVoteCount = poke.voteCount + Call.value
+//     let updatedPokes = state.pokes{ [index].voteCount = updatedVoteCount }
+//     put(state{ pokes = updatedPokes })
