@@ -1,5 +1,6 @@
 body{
-  background-color:#37393d;
+  background-color:#586274;
+  padding: 1em;
 }
 
 .div-center {
@@ -7,8 +8,8 @@ body{
 }
 
 #title-div {
-  margin: 1.5em;
-  color: rgb(201, 5, 71);
+  margin: 2em;
+  color: white;
   width: auto;
   height: auto;
 }
@@ -37,7 +38,7 @@ img{
 }
 
 .btn{
-  background-color: rgb(201, 5, 71);
+  background-color: #F7296E;
   border-color: #ddd9d9;
   color:white;
   margin-top: 1em;
@@ -50,10 +51,4 @@ img{
   padding-top: 0.5em;
   background-color: #F5F5F5;
   border: 0.5em solid #F5F5F5;
-
-}
-.container{
-  min-height: 100vh;
-  max-height: 100vh;
-  overflow-y: auto;
 }
