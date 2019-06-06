@@ -129,7 +129,7 @@ $('#registerBtn').click(async function(){
         category = ($('#regCategory').val());
 
 
-  await contractCall('registerPoke', [url, name, category], 0);
+  await contractCall('registerPoke', [ name, url, category], 0);
 
   pokeArray.push({
     pokeName: name,
