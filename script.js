@@ -51,7 +51,7 @@ contract Pokedex =
     put(state{ pokes = updatedPokes })
 `;
 
-const contractAddress = 'ct_zT9xbVzCh6Kbwbgzy3vZgEAjb7EhZ4KfWmqwCxyN8vhnfhp8s';
+const contractAddress = 'ct_2Bgo171DQxeyasnxU9f72AhEtFaNz7rP2t648Ve7cGtvpHG4r7';
 var client = null;
 var pokeArray = [];
 var pokesLength = 0;
